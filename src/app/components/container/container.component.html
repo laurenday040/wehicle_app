@@ -1,0 +1,12 @@
+<div class="w-full min-h-screen p-4 relative">
+  <div *ngIf="filterOptions$ | async as filterOptions">
+    <app-filters *ngIf="filterOptions" [filterValues]="filterOptions"></app-filters>
+  </div>
+  <div *ngIf="filteredVehicles$ | async as filteredVehicles" class=" flex flex-wrap">
+    <ng-container *ngFor="let vehicle of filteredVehicles">
+      <div class="px-4 pt-4 w-full sm:w-full md:w-6/12 lg:w-4/12 xl:w-3/12 2xl::w-3/12">
+        <app-card [vehicle]="vehicle"></app-card>
+      </div>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+<mat-card class="w-full">
+    <div class="w-full grid gap-4">
+        <div>
+          <h2>{{ vehicle?.brand }}</h2>
+          <h3>{{ vehicle?.type }}</h3>
+        </div>
+        <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu" /> -->
+        <div>
+          <div>
+            <div class="">Colors</div>
+            <div>
+                <ng-container *ngFor="let color of vehicle?.colors">
+                  <div class="m-4 w-6 h-6 rounded-full" [ngStyle]="{ 'background-color': color }"></div>
+                </ng-container>
+            </div>
+          </div>
+        </div>
+        <div>
+          <button mat-button>LIKE</button>
+          <button mat-button>SHARE</button>
+        </div>
+    </div>
+</mat-card>
