@@ -5,7 +5,6 @@
         <mat-form-field appearance="fill" class="w-full">
           <mat-label>Brand</mat-label>
           <mat-select formControlName="brand">
-            <mat-option [value]="all.key" selected>{{all.value}}</mat-option>
             <mat-option *ngFor="let brand of filterValues.brand" [value]="brand">
               {{ brand }}
             </mat-option>
@@ -16,7 +15,6 @@
         <mat-form-field appearance="fill" class="w-full">
           <mat-label>Colors</mat-label>
           <mat-select formControlName="color">
-            <mat-option [value]="all.key" selected>{{all.value}}</mat-option>
             <mat-option *ngFor="let colors of filterValues.colors" [value]="colors">
               {{ colors }}
             </mat-option>
@@ -27,7 +25,6 @@
         <mat-form-field appearance="fill" class="w-full">
           <mat-label>Types</mat-label>
           <mat-select formControlName="type">
-            <mat-option [value]="all.key" selected>{{all.value}}</mat-option>
             <mat-option *ngFor="let type of filterValues.type" [value]="type">
               {{ type }}
             </mat-option>

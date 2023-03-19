@@ -18,19 +18,20 @@ export class FiltersComponent implements OnInit {
   constructor(private _fb: FormBuilder, private _state: VehicleStateService) {}
 
   ngOnInit(): void {
+    console.log('filter', this.filterValues)
     if (this.filterValues) {
       this.filterOptions = this.initializeForm(this.filterValues)
       this.filterOptions.valueChanges.subscribe((values) => {
-        this._state.$filterOptions.next(values)
+        this._state.filterOptions.next(values)
       })
     }
   }
 
   private initializeForm(values: IFilterOptions): FormGroup {
     return this._fb.group({
-      type: [ALL.key],
-      brand: [ALL.key],
-      color: [ALL.key],
+      type: [ALL],
+      brand: [ALL],
+      color: [ALL],
     })
   }
 }

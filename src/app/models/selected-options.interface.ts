@@ -6,5 +6,5 @@ export interface ISelectedOptions {
 }
 
 export const FILTER_OPTIONS_INSTANCE = (): ISelectedOptions => {
-  return { type: ALL.key, brand: ALL.key, color: ALL.key }
+  return { type: ALL, brand: ALL, color: ALL }
 }

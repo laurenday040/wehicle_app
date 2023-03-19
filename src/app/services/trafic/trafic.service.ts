@@ -1,6 +1,6 @@
-import { IVehicle } from 'src/app/models/vehicle.interface';
-import { Injectable } from '@angular/core';
-import { delay, from, interval, Observable, of, Subscriber } from 'rxjs';
+import { IVehicle } from 'src/app/models/vehicle.interface'
+import { Injectable } from '@angular/core'
+import { catchError, delay, from, interval, Observable, of, retry, Subscriber } from 'rxjs'
 
 @Injectable({
   providedIn: 'root',
@@ -10,13 +10,14 @@ export class TraficService {
 
   fetchData(): Observable<IVehicle[]> {
     return new Observable((subscriber: Subscriber<IVehicle[]>) => {
-      if (Math.floor(Math.random() * 20) === 2) {
-        subscriber.error('Fetch data error');
-        new Error('Fetch data error');
+      const random = Math.floor(Math.random() * 20)
+      if (random === 2) {
+        subscriber.error('Fetch data error')
+        new Error('Fetch data error')
       } else {
-        subscriber.next(this.dataSourceMock());
+        subscriber.next(this.dataSourceMock())
       }
-    }).pipe(delay(2000));
+    }).pipe(delay(1000))
   }
 
   private dataSourceMock(): IVehicle[] {
@@ -105,6 +106,6 @@ export class TraficService {
         colors: ['green', 'yellow'],
         img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Porsche_Carrera_GT_-_Goodwood_Breakfast_Club_%28July_2008%29.jpg/440px-Porsche_Carrera_GT_-_Goodwood_Breakfast_Club_%28July_2008%29.jpg',
       },
-    ];
+    ]
   }
 }

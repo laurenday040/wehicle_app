@@ -1,1 +1,1 @@
-export const ALL = { key: 'all', value: 'All' }
+export const ALL = 'All'

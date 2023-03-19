@@ -1,23 +1,29 @@
-<mat-card class="w-full">
-    <div class="w-full grid gap-4">
-        <div>
-          <h2>{{ vehicle?.brand }}</h2>
-          <h3>{{ vehicle?.type }}</h3>
-        </div>
-        <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu" /> -->
-        <div>
-          <div>
-            <div class="">Colors</div>
-            <div>
-                <ng-container *ngFor="let color of vehicle?.colors">
-                  <div class="m-4 w-6 h-6 rounded-full" [ngStyle]="{ 'background-color': color }"></div>
-                </ng-container>
-            </div>
-          </div>
-        </div>
-        <div>
-          <button mat-button>LIKE</button>
-          <button mat-button>SHARE</button>
-        </div>
+<div class="w-full shadow-xl rounded-md overflow-hidden border border-gray-300/50">
+  <div class="w-full p-4 flex flex-wrap">
+    <div class="w-full">
+      <h2 class="m-0">
+        {{ vehicle?.brand }}
+        <span class="text-xs">({{ vehicle?.type }})</span>
+      </h2>
     </div>
-</mat-card>
+    <div class="w-full">
+      <div>
+        <div class="flex flex-wrap items-center">
+          <div class="">Colors:</div>
+          <div
+            *ngFor="let color of vehicle?.colors"
+            class="mx-2 my-1 w-6 h-6 rounded-full shadow-xl border border-gray-300/50"
+            [ngStyle]="{ 'background-color': color }"></div>
+        </div>
+      </div>
+    </div>
+    <div class="pt-4 w-full h-64 rounded overflow-hidden">
+      <img
+        [src]="vehicle?.img"
+        [alt]="vehicle?.brand"
+        loading="lazy"
+        (error)="onImageError($event)"
+        class="w-full h-64 object-cover" />
+    </div>
+  </div>
+</div>
