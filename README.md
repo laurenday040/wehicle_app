@@ -25,14 +25,14 @@ Run `npm test -- --coverage` to generate test code coverage .
 
 ## Small summary
 
-- This is a small app where you will see 3 filter on the top and a list of different vehicles under them.
-- The application was created following best practice possible as S.O.L.I.D principles and Declarative programming.
+- Welcome to our small application, designed to make it easy for you to filter and view different vehicles. At the top of the app, you'll see three filters to help you quickly narrow down your search.
 
-- The development was mainly focused on using observables and async pipe so there was easier to manage the data streams.
-- There is small responsive design for different screen sizes, and the library used was `Tailwind`, the reason was because
-  tailwind allow you to attach to build bundle only the classes you used, that makes it a very versatile css library.
-  For testing I used ng-mock and observer-spy, feel like they are mandatory tools that help you make test way easier.
+- I tried to follow best practices, including S.O.L.I.D principles and Declarative programming, to ensure the app is efficient, maintainable, and scalable.
 
-  ## Author
+- I prioritized the use of observables and async pipes to manage the data streams, making it easier to handle data in real-time. Additionally, we included a small responsive design for different screen sizes, using the versatile Tailwind CSS library. We chose Tailwind because it allows us to include only the necessary classes in the build bundle, making the app more lightweight and faster to load.
 
-  * Laurentiu Pop
+- To ensure the app is reliable and error-free, we used ng-mock and observer-spy for testing. These tools are essential for simplifying the testing process and ensuring that all aspects of the app function as expected.
+
+## Author
+
+- Laurentiu Pop
