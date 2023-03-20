@@ -13,7 +13,6 @@ export class TraficService {
       const random = Math.floor(Math.random() * 20)
       if (random === 2) {
         subscriber.error('Fetch data error')
-        new Error('Fetch data error')
       } else {
         subscriber.next(this.dataSourceMock())
       }

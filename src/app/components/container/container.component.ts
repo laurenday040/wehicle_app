@@ -4,17 +4,10 @@ import { IVehicle } from './../../models/vehicle.interface'
 import { VehicleStateService } from '../../services/state/vehicle-state.service'
 import { TraficService } from './../../services/trafic/trafic.service'
 import { Component, OnInit } from '@angular/core'
-import {
-  Observable,
-  combineLatest,
-  map,
-  retry,
-  share,
-  catchError,
-  BehaviorSubject,
-} from 'rxjs'
+import { Observable, combineLatest, map, retry, share, catchError, BehaviorSubject, of } from 'rxjs'
 import { animate, query, stagger, style, transition, trigger } from '@angular/animations'
 import { ISelectedOptions } from 'src/app/models/selected-options.interface'
+import { IFilterOptions } from 'src/app/models/filter-options.interface'
 
 @Component({
   selector: 'app-container',
@@ -36,41 +29,44 @@ export class ContainerComponent implements OnInit {
   constructor(private _traficService: TraficService, private _state: VehicleStateService) {}
 
   ngOnInit(): void {
-    //TODO get vehicle list
-    const vehicleList$ = this._traficService.fetchData().pipe(
-      share(),
-      retry({ count: 5, delay: 2000 }),
-      catchError((err) => [])
-    )
+    this.data$ = this.initializeData()
+  }
 
-    //TODO prepare filter options
-    const filterOptions$ = this.buildFilters(this._state.filterOptions, vehicleList$)
-
-    //TODO display vehicles based on filters
-    const filteredVehicles$ = this.buildDisplayList(this._state.filterOptions, vehicleList$)
-
-    //TODO combine into unique data source
-    this.data$ = combineLatest([filterOptions$, filteredVehicles$]).pipe(
-      map((data) => {
-        return { filters: data[0], vehicles: data[1] }
-      })
-    )
+  tryToRecconect() {
+    this.data$ = this.initializeData()
   }
 
   trackByVehicle(index: number, vehicle: IVehicle): number {
     return vehicle.id
   }
 
+  private initializeData(): Observable<IFiltersAndVehicles> {
+    //TODO get vehicle list
+    const vehicleList$: Observable<IVehicle[]> = this._traficService.fetchData().pipe(
+      share(),
+      retry({ count: 3, delay: 1000 }),
+      catchError((err) => of([]))
+    )
+
+    //TODO prepare filter options
+    const filterOptions$: Observable<IFilterOptions> = this.buildFilters(this._state.filterOptions, vehicleList$)
+
+    //TODO display vehicles based on filters
+    const filteredVehicles$: Observable<IVehicle[]> = this.buildDisplayList(this._state.filterOptions, vehicleList$)
+
+    //TODO combine into unique data source
+    return combineLatest([filterOptions$, filteredVehicles$]).pipe(
+      map((data) => {
+        return { filters: data[0], vehicles: data[1] }
+      })
+    )
+  }
+
   private buildFilters(filters: BehaviorSubject<ISelectedOptions>, vehicleList: Observable<IVehicle[]>) {
     return combineLatest([filters, vehicleList]).pipe(
       //TODO prepare unique values
       map((data) => {
-        let vehicleFiltered: IVehicle[] = data[1].filter((x) =>
-          data[0].color === ALL ? true : x.colors.find((color) => color === data[0].color)
-        )
-        vehicleFiltered = vehicleFiltered.filter((x) => (data[0].type === ALL ? true : x.type === data[0].type))
-        vehicleFiltered = vehicleFiltered.filter((x) => (data[0].brand === ALL ? true : x.brand === data[0].brand))
-        return vehicleFiltered.reduce(
+        return this.vehicleListFiltered(data[1], data[0]).reduce(
           (previous, current) => {
             previous.brand.add(current.brand)
             previous.type.add(current.type)
@@ -100,18 +96,26 @@ export class ContainerComponent implements OnInit {
     vehicleList: Observable<IVehicle[]>
   ): Observable<IVehicle[]> {
     return combineLatest([filters, vehicleList]).pipe(
-      map(([filterOptions, list]) => {
-        let response: IVehicle[] = list
-        //TODO Color filter
-        response = response.filter((x) =>
-          filterOptions.color === ALL ? true : x.colors.find((color) => color === filterOptions.color)
-        )
-        //TODO Type filter
-        response = response.filter((x) => (filterOptions.type === ALL ? true : x.type === filterOptions.type))
-        //TODO Brand filter
-        response = response.filter((x) => (filterOptions.brand === ALL ? true : x.brand === filterOptions.brand))
-        return response
-      })
+      map(([filterOptions, list]) => [...this.vehicleListFiltered(list, filterOptions)])
     )
+  }
+
+  /**
+   * 
+   * @param vehicleList 
+   * @param selectedOptions 
+   * @returns vehicle list filtered based on selected filter options
+   */
+  private vehicleListFiltered(vehicleList: IVehicle[], selectedOptions: ISelectedOptions): IVehicle[] {
+    let vehicleFiltered: IVehicle[] = vehicleList.filter((x) =>
+      selectedOptions.color === ALL ? true : x.colors.find((color) => color === selectedOptions.color)
+    )
+    vehicleFiltered = vehicleFiltered.filter((x) =>
+      selectedOptions.type === ALL ? true : x.type === selectedOptions.type
+    )
+    vehicleFiltered = vehicleFiltered.filter((x) =>
+      selectedOptions.brand === ALL ? true : x.brand === selectedOptions.brand
+    )
+    return vehicleFiltered
   }
 }

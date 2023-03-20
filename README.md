@@ -2,6 +2,10 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.3.
 
+## Install dependency
+
+Use npm package manager to install dependency: npm install
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
@@ -16,12 +20,19 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run `ng test` to execute the unit tests via [Jest].
+Run `npm test -- --coverage` to generate test code coverage .
 
-## Running end-to-end tests
+## Small summary
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+- This is a small app where you will see 3 filter on the top and a list of different vehicles under them.
+- The application was created following best practice possible as S.O.L.I.D principles and Declarative programming.
 
-## Further help
+- The development was mainly focused on using observables and async pipe so there was easier to manage the data streams.
+- There is small responsive design for different screen sizes, and the library used was `Tailwind`, the reason was because
+  tailwind allow you to attach to build bundle only the classes you used, that makes it a very versatile css library.
+  For testing I used ng-mock and observer-spy, feel like they are mandatory tools that help you make test way easier.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+  ## Author
+
+  * Laurentiu Pop

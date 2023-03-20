@@ -8,20 +8,21 @@ import { FormBuilder, FormGroup } from '@angular/forms'
   selector: 'app-filters',
   templateUrl: './filters.component.html',
   styleUrls: ['./filters.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FiltersComponent implements OnInit {
   @Input() filterValues: IFilterOptions | undefined
-  filterOptions: FormGroup | undefined
-  all = ALL
 
-  constructor(private _fb: FormBuilder, private _state: VehicleStateService) {}
+  filterOptionsForm: FormGroup | undefined
+  all:string
+
+  constructor(private _fb: FormBuilder, private _state: VehicleStateService) {
+    this.all = ALL
+  }
 
   ngOnInit(): void {
-    console.log('filter', this.filterValues)
     if (this.filterValues) {
-      this.filterOptions = this.initializeForm(this.filterValues)
-      this.filterOptions.valueChanges.subscribe((values) => {
+      this.filterOptionsForm = this.initializeForm(this.filterValues)
+      this.filterOptionsForm.valueChanges.subscribe((values) => {
         this._state.filterOptions.next(values)
       })
     }

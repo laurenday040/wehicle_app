@@ -1,7 +1,7 @@
-<ng-container *ngIf="data$ | async as data; else loading">
-  <div class="w-full min-h-screen p-4 relative">
+<div *ngIf="data$ | async as data; else loading">
+  <div class="w-full min-h-screen p-4 relative" *ngIf="data.vehicles.length > 0 && data.filters;else onError">
     <div>
-      <app-filters *ngIf="data.filters" [filterValues]="data.filters"></app-filters>
+      <app-filters [filterValues]="data.filters"></app-filters>
     </div>
     <div class="flex flex-wrap" [@fade]="data.vehicles.length">
       <div
@@ -11,10 +11,14 @@
       </div>
     </div>
   </div>
-  …
-</ng-container>
+</div>
 <ng-template #loading>
   <div class="w-full h-screen flex justify-center items-center">
     <h2>Loading...</h2>
+  </div>
+</ng-template>
+<ng-template #onError>
+  <div class="w-full h-screen flex justify-center items-center">
+    <button mat-button (click)="tryToRecconect()">Try Reconnect</button>
   </div>
 </ng-template>
