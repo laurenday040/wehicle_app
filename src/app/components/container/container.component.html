@@ -5,7 +5,7 @@
     </div>
     <div class="flex flex-wrap" [@fade]="data.vehicles.length">
       <div
-        class="transition-all px-4 pt-4 w-full sm:w-full md:w-6/12 lg:w-6/12 xl:w-4/12 2xl:w-3/12"
+        class="transition-all px-4 pt-4 w-full sm:w-full md:w-6/12 lg:w-6/12 xl:w-4/12 2xl:w-4/12"
         *ngFor="let vehicle of data.vehicles; trackBy: trackByVehicle">
         <app-card [vehicle]="vehicle"></app-card>
       </div>
